@@ -1,0 +1,82 @@
+from tkinter import *
+from PIL import ImageTk, Image                      #for images
+
+root = Tk()
+root.title("Ghibli Films")                          #initialize title
+root.iconbitmap('c:/DIRECTORY/noface.ico') #initialize noface icon
+
+#define images and put into a python list
+myImg1 = ImageTk.PhotoImage(Image.open("c:/DIRECTORY/posters/spiritedaway.jpg"))
+myImg2 = ImageTk.PhotoImage(Image.open("c:/DIRECTORY/posters/painting.jpg"))
+myImg3 = ImageTk.PhotoImage(Image.open("c:/DIRECTORY/posters/mononoke.jpg"))
+
+imageList = [myImg1, myImg2, myImg3]
+
+status = Label(root, text = "Image 1 of "+str(len(imageList)), bd = 1, relief=SUNKEN, anchor = E)
+
+myLabel= Label(image=myImg1)
+myLabel.grid(row=0, column=0, columnspan=3)
+
+#define button functionalities
+def next(image_number):
+    global myLabel
+    global buttonNext
+    global buttonBack
+
+    myLabel.grid_forget() #internal function to delete last item
+    myLabel = Label(image = imageList[image_number - 1])
+    myLabel.grid(row=0, column=0, columnspan=3)
+    #pass in 2, lists start at 0 so
+
+
+    buttonNext = Button(root, text = ">>", pady=10, command = lambda: next(image_number+1))
+    buttonQuit = Button(root, text="Exit program", command=root.quit)
+    buttonBack = Button(root, text="<<", pady=10, command=lambda: back(image_number-1))
+    status = Label(root, text="Image "+str(image_number)+" of " + str(len(imageList)), bd=1, relief=SUNKEN, anchor=E)
+
+    #initialize disable before grid placement
+    if image_number == 3:
+        buttonNext = Button(root, text=">>", pady=10, state = DISABLED)
+
+    buttonNext.grid(row=1, column=2)
+    buttonQuit.grid(row=1, column=1)
+    buttonBack.grid(row=1, column=0)
+    status.grid(row=2, column=0, columnspan=3, sticky=W + E)
+
+def back(image_number):
+    global myLabel
+    global buttonNext
+    global buttonBack
+
+    myLabel.grid_forget()  # internal function to delete last item
+    myLabel = Label(image=imageList[image_number - 1])
+    myLabel.grid(row=0, column=0, columnspan=3)
+    # pass in 2, lists start at 0 so
+
+    buttonBack = Button(root, text="<<", pady=10, command=lambda: back(image_number - 1))
+    buttonQuit = Button(root, text="Exit program", command=root.quit)
+    buttonNext = Button(root, text=">>", pady=10, command=lambda: next(image_number + 1))
+
+    status = Label(root, text="Image "+str(image_number)+" of " + str(len(imageList)), bd=1, relief=SUNKEN, anchor=E)
+
+
+    # initialize disable before grid placement
+    if image_number == 1:
+        buttonBack = Button(root, text="<<", pady=10, state=DISABLED)
+
+    buttonNext.grid(row=1, column=2)
+    buttonQuit.grid(row=1, column=1)
+    buttonBack.grid(row=1, column=0)
+    status.grid(row=2, column=0, columnspan=3, sticky=W + E)
+
+# << QUIT >> buttons beneath
+
+buttonBack = Button(root, text="<<", pady = 10, command=lambda: back(2), state=DISABLED).grid(row=1, column = 0)
+buttonQuit = Button(root, text="Exit program", command = root.quit).grid(row=1, column = 1)
+buttonNext = Button(root, text=">>", pady = 10, command=lambda: next(2)).grid(row=1, column = 2)
+
+#use  N/S/E/W navigational system using sticky
+status.grid(row=2, column=0, columnspan = 3, sticky = W+E)
+
+
+root.mainloop()
