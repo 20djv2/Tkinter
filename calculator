@@ -1,0 +1,89 @@
+from tkinter import *
+
+root = Tk()
+root.title("Simple Calculator")
+
+
+
+#entry box
+e = Entry(root, width = 35, borderwidth = 5)
+#can span boxes along columns using OCLUMNSPAN
+e.grid(row = 0, column=1, columnspan = 3, padx=10, pady=10)
+
+#function with definitiion
+def screenOutput(number):
+    current = e.get()
+    e.delete(0, END)
+    e.insert(0, str(current)+str(number))
+
+def add():
+    #store first number and clear when + is hit
+    firstNumber = e.get()
+    global first  # for operators
+    first = int(firstNumber)
+    e.delete(0, END) #clear box
+    global operand
+    operand = "+"
+
+def subtract():
+    firstNumber = e.get()
+    global first  # for operators
+    first = int(firstNumber)
+    e.delete(0, END) #clear box
+    global operand
+    operand = "-"
+
+def multiply():
+    firstNumber = e.get()
+    global first  # for operators
+    first = int(firstNumber)
+    e.delete(0, END) #clear box
+    global operand
+    operand = "*"
+
+def divide():
+    firstNumber = e.get()
+    global first  # for operators
+    first = int(firstNumber)
+    e.delete(0, END) #clear box
+    global operand
+    operand = "/"
+
+def equals():
+    secondNumber = e.get()
+    e.delete(0, END) #clear input box
+
+    if operand == "+":
+        e.insert(0, first + int(secondNumber))
+    elif operand == "-":
+        e.insert(0, first - int(secondNumber))
+    elif operand == "*":
+        e.insert(0, first * int(secondNumber))
+    elif operand == "/":
+        e.insert(0, first / int(secondNumber))
+
+def clear():
+    e.delete(0, END)
+
+#define buttons
+button_7 =  Button(root, text = "7", padx = 40, pady = 20, bg="light blue", command =lambda: screenOutput(7)).grid(row=1, column=1)
+button_8 =  Button(root, text = "8", padx = 40, pady = 20, bg="light blue", command =lambda: screenOutput(8)).grid(row=1, column=2)
+button_9 =  Button(root, text = "9", padx = 40, pady = 20, bg="light blue", command =lambda: screenOutput(9)).grid(row=1, column=3)
+
+button_4 =  Button(root, text = "4", padx = 40, pady = 20, bg="light blue", command =lambda: screenOutput(4)).grid(row=2, column=1)
+button_5 =  Button(root, text = "5", padx = 40, pady = 20, bg="light blue", command =lambda: screenOutput(5)).grid(row=2, column=2)
+button_6 =  Button(root, text = "6", padx = 40, pady = 20, bg="light blue", command =lambda: screenOutput(6)).grid(row=2, column=3)
+
+button_1 =  Button(root, text = "1", padx = 40, pady = 20, bg="light blue", command =lambda: screenOutput(1)).grid(row=3, column=1)
+button_2 =  Button(root, text = "2", padx = 40, pady = 20, bg="light blue", command =lambda: screenOutput(2)).grid(row=3, column=2)
+button_3 =  Button(root, text = "3", padx = 40, pady = 20, bg="light blue", command =lambda: screenOutput(3)).grid(row=3, column=3)
+button_0 =  Button(root, text = "0", padx = 40, pady = 20, bg="light blue", command = lambda: screenOutput(0)).grid(row=4, column=1)
+
+button_add =  Button(root, text = "+", padx = 40, pady = 20, bg="dark sea green", command = add).grid(row=5, column=1) #CHANGE BUTTON LOCATIONS
+button_subtract =  Button(root, text = "-", padx = 40, pady = 20, bg="dark sea green", command = subtract).grid(row=5, column=2)
+button_multiply =  Button(root, text = "*", padx = 42, pady = 20, bg="dark sea green", command = multiply).grid(row=6, column=1)
+button_divide =  Button(root, text = "/", padx = 40, pady = 20, bg="dark sea green", command = divide).grid(row=6, column=2)
+button_equal = Button(root, text = "=", padx = 40, pady = 55, bg="light grey", command = equals).grid(row=5, column=3, rowspan = 2)
+button_clear = Button(root, text = "Clear", padx = 80, pady = 20, bg="light grey", command = clear).grid(row=4, column=2, columnspan = 2)
+
+root.mainloop()
